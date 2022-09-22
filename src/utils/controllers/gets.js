@@ -21,11 +21,11 @@ const getUsers = async (name) => {
                     u.email?.toLowerCase().includes(name.toLowerCase())
             )
             if (userFound.length > 0) return userFound
-            if (userFound.length < 0) {
-                return "No se encontraron coinidencias con la busqueda"
-            } else {
-                return arrayUsers
+            if (userFound.length === 0) {
+                throw new Error("No se encontraron coinidencias con la busqueda")
             }
+        } else {
+            return arrayUsers
         }
     } catch (error) {
         throw new Error(error)
@@ -62,8 +62,35 @@ const getProducts = async (name) => {
                     p.category?.toLowerCase().includes(name.toLowerCase()) ||
                     p.type?.toLowerCase().includes(name.toLowerCase())
             )
+            if (productFound > 0) return productFound
+            if (productFound < 0) {
+                throw new Error("No se encontraron coincidencias")
+            }
+        } else {
+            return arrayProduct
         }
     } catch (error) {
-
+        throw new Error(error)
     }
+}
+
+const productId = async (id) => {
+    try {
+        connection()
+    } catch (error) {
+        throw new Error(error)
+    }
+    try {
+        const arrayUsers = await Product.findOne({ _id: id, deleted: false }).populate({ path: "user", match: { deleted: false }, })
+        return arrayUsers;
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
+module.exports = {
+    userId,
+    productId,
+    getProducts,
+    getUsers
 }
