@@ -17,15 +17,20 @@ const userSchema = new Schema({
     image: { type: String, default: "https://assets.stickpng.com/images/585e4beacb11b227491c3399.png" },
     email: { type: String, lowercase: true, required: [true, "Email is required"], unique: true, match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "email invalid"] },
     password: String,
-    about: String(1000),
+    about: String,
     place: String,
     place_lat: String,
     place_lon: String,
     deleted: { type: Boolean, default: false },
     isAdmin: { type: Boolean, default: false },
     level: { type: Number, default: 1 },
-    products: [{ type: mongoose.Schema.ObjectId, ref: "Product" }]
-})
+    products: [{ type: mongoose.Schema.ObjectId, ref: "Product" }],
+    purchases: [String]
+},
+    {
+        timestamps: true
+    }
+)
 
 userSchema.pre("save", function (next) {
     const user = this;

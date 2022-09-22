@@ -13,7 +13,11 @@ const productSchema = new Schema({
     type: [String],
     deleted: { type: Boolean, default: false },
     user: [{ type: mongoose.Schema.ObjectId, ref: "User" }]
-})
+},
+    {
+        timestamps: true
+    }
+)
 const Product = mongoose.model("Product", productSchema)
 
 module.exports = Product

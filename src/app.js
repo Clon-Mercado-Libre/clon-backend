@@ -21,7 +21,7 @@ server.use(cookieParser())
 server.use(morgan("dev"))
 server.use(setHeaders)
 
-// server.use("/", routes)
+server.use("/", routes)
 
 //Error handlers
 server.use(errorHandler)
